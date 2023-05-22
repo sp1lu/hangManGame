@@ -79,6 +79,11 @@ public class hangManGame {
 
                     System.out.println("\nDai, ti aiuto.");
 
+                    /////////////////////////////////
+                    Boolean isAlreadyPicked = false;
+
+                    ////////////////////////////////
+
                     // Show user an hint: which letter is found in a certain position
                     // Generate a random number between 0 and word-to-guess size
                     // Than pick letter at random number index...
