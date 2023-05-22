@@ -80,7 +80,7 @@ public class hangManGame {
                     System.out.println("\nDai, ti aiuto.");
 
                     /////////////////////////////////
-                    Boolean isAlreadyPicked = false;
+                    // Boolean isAlreadyPicked = false;
 
                     ////////////////////////////////
 
