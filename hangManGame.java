@@ -3,10 +3,23 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class hangManGame {
     public static void main(String[] args) {
         Scanner reader = new Scanner(System.in);
+
+        /* System.out.println("Inserisci una frase");
+        String userPhrase = reader.nextLine();
+        
+        List<String> splittedPhrase = Arrays.asList(userPhrase.replaceAll("[^\\p{L}\\s]", "").split(" "));
+        
+        List<String> wordsToGuessList = new ArrayList<>();
+        for (String word : splittedPhrase) {
+            wordsToGuessList.add(word);
+        }
+        
+        System.out.println(wordsToGuessList); */
 
         // Creates a list of words and fills it
         List<String> wordsToGuessList = new ArrayList<>();
@@ -46,7 +59,7 @@ public class hangManGame {
         }
 
         // Creates an empty list; it'll be useful later!
-        List<Integer> uniqueNums = new ArrayList<>();
+        Stack<Integer> uniqueNums = new Stack<>();
 
         System.out.println("--------------------------------------");
         System.out.println("Indovina la parola a cui sto pensando!");
@@ -136,8 +149,14 @@ public class hangManGame {
 
                     break;
 
-                } else if (userLifeChoiche <= 0) {
+                } else if (userLifeChoiche < 0) {
                     System.out.println("Numeri negativi? Really?!");
+                    System.out.println("Riprova. Quante vite vuoi avere?");
+
+                    continue;
+
+                } else if (userLifeChoiche == 0) {
+                    System.out.println("Zero vite? Sei un fantasma o sei solo stupido?");
                     System.out.println("Riprova. Quante vite vuoi avere?");
 
                     continue;
@@ -156,9 +175,9 @@ public class hangManGame {
                 reader.next();
             }
 
-        }
+            reader.close();
 
-        /* reader.close(); */
+        }
 
         return number;
     }
@@ -186,7 +205,7 @@ public class hangManGame {
     ////////////////////////////////////////////////////////////////
 
     public static void giveHint(List<String> lettersList, List<String> hintsList,
-            List<Integer> uniqueNums) {
+            Stack<Integer> uniqueNums) {
 
         // Keep generating a random number between none and word-to-guess size until it finds a never-picked number
         int randCharHint;
@@ -208,14 +227,13 @@ public class hangManGame {
 
             // Than pick letter at random generated number index...
             // ...and register its index
-            int lastNum = uniqueNums.get(uniqueNums.size() - 1);
+            int lastRandNum = uniqueNums.lastElement();
 
-            String hint = lettersList.get(lastNum);
-            int hintPosition = lastNum;
+            String hint = lettersList.get(lastRandNum);
 
             // Set at that index the corrisponding letter in the word-to-guess...
             //...and print the hint
-            hintsList.set(hintPosition, hint);
+            hintsList.set(lastRandNum, hint);
 
             for (int i = 0; i < hintsList.size(); i++) {
 
