@@ -86,7 +86,7 @@ public class hangManGame {
         // Start asking guesses to user
         while (userTry != lifeNum) {
 
-            userGuess = reader.nextLine();
+            userGuess = reader.nextLine().toLowerCase();
 
             // Escape winning condition
             if (userGuess.equals(wordToGuess)) {
