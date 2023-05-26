@@ -1,5 +1,6 @@
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -7,44 +8,84 @@ public class hangManGame {
     public static void main(String[] args) {
         Scanner reader = new Scanner(System.in);
 
-        // Declarations
-        String wordToGuess = "cinghiale";
+        // Creates a list of words and fills it
+        List<String> wordsToGuessList = new ArrayList<>();
 
-        ArrayList<String> charsWordToGuess = new ArrayList<String>(
-                Arrays.asList("c", "i", "n", "g", "h", "i", "a", "l", "e"));
+        wordsToGuessList.add("episodio");
+        wordsToGuessList.add("sindaco");
+        wordsToGuessList.add("ultimo");
+        wordsToGuessList.add("colorato");
+        wordsToGuessList.add("innocente");
+        wordsToGuessList.add("borraccia");
+        wordsToGuessList.add("tastiera");
+        wordsToGuessList.add("acqua");
+        wordsToGuessList.add("playstation");
+        wordsToGuessList.add("palazzo");
+        wordsToGuessList.add("colonna");
+        wordsToGuessList.add("registro");
+        wordsToGuessList.add("burocrazia");
+        wordsToGuessList.add("videogioco");
+        wordsToGuessList.add("impiccato");
 
-        ArrayList<String> charsHint = new ArrayList<String>(
-                Arrays.asList("_", "_", "_", "_", "_", "_", "_", "_", "_"));
+        // Generates a random number to choose the word to guess
+        Random rng = new Random();
+        int randomWordToGuessIndex = rng.nextInt(wordsToGuessList.size());
 
-        int lifeNum = 5;
-        int userTry = 0;
+        String wordToGuess = wordsToGuessList.get(randomWordToGuessIndex);
+
+        // Creates an empty list and fills it with the word-to-guess letters
+        List<String> charsWordToGuess = new ArrayList<>();
+        for (int i = 0; i < wordToGuess.length(); i++) {
+            charsWordToGuess.add(String.valueOf(wordToGuess.charAt(i)));
+        }
+
+        // Creates an empty list and fill it with "_" characters
+        List<String> charsHint = new ArrayList<>();
+        for (int i = 0; i < wordToGuess.length(); i++) {
+            charsHint.add("_");
+        }
+
+        // Creates an empty list; it'll be useful later!
+        List<Integer> uniqueNums = new ArrayList<>();
 
         System.out.println("--------------------------------------");
         System.out.println("Indovina la parola a cui sto pensando!");
-        System.out.println("Sto pensando ad una parola di " + charsWordToGuess.size() + " lettere");
+
+        // Choose how many tries you wanna have
+        System.out.println("Dai, ti faccio scegliere. Quante vite vuoi avere?");
+
+        int userTry = 0;
+        int lifeNum = howManyLives();
+
         System.out.println("Hai " + lifeNum + " vite:");
 
         for (int i = 0; i < lifeNum; i++) {
             System.out.print("<3 ");
         }
 
+        // The game begins!
+        System.out.println("\nSto pensando ad una parola di " + charsWordToGuess.size() + " lettere");
         System.out.println("\nQual e' la tua risposta?");
+        /* String userGuess = reader.nextLine(); */
+
+        String userGuess;
 
         // Start asking guesses to user
         while (userTry != lifeNum) {
 
-            String userGuess = reader.nextLine();
+            userGuess = reader.nextLine();
 
             // Escape winning condition
             if (userGuess.equals(wordToGuess)) {
                 System.out.println("--------------------------------------");
                 System.out.println("Bravo, hai indovinato!");
-                System.out.println("La parola era proprio 'cinghiale'.");
+                System.out.println("La parola era proprio \"%s\".".formatted(wordToGuess));
                 System.out.println("--------------------------------------");
 
                 break;
 
-            } else { // What to do is user misses the word
+                // What to do if user misses the word
+            } else {
                 userTry++;
 
                 int lifeRemainNum = lifeNum - userTry;
@@ -54,70 +95,20 @@ public class hangManGame {
                 System.out.println("Hai " + (lifeRemainNum) + " vite!");
                 System.out.println();
 
-                for (int i = 0; i < lifeRemainNum; i++) { // Print remaining lives
+                // Print remaining lives
+                for (int i = 0; i < lifeRemainNum; i++) {
                     System.out.print("<3 ");
                 }
 
                 System.out.println();
 
                 if (userTry == lifeNum) { // What to do if user losses his whole lives
-                    System.out.println("--------------------------------------");
-                    System.out.println("Ops, hai perso tutte le vite!");
-                    System.out.println("  +---+");
-                    System.out.println("  |   |");
-                    System.out.println("  O   |");
-                    System.out.println(" /|\\  |");
-                    System.out.println(" / \\  |");
-                    System.out.println("      |");
-                    System.out.println("=======");
-                    System.out.println("GAME OVER!");
-                    System.out.println("--------------------------------------");
+                    gameOver();
 
                     break;
 
                 } else { // What to do if user has still some lives
-
-                    System.out.println("\nDai, ti aiuto.");
-
-                    /////////////////////////////////
-                    // Boolean isAlreadyPicked = false;
-
-                    ////////////////////////////////
-
-                    // Show user an hint: which letter is found in a certain position
-                    // Generate a random number between 0 and word-to-guess size
-                    // Than pick letter at random number index...
-                    // ...and register its index
-                    Random r = new Random();
-                    int ranCharHint = r.nextInt(charsWordToGuess.size());
-
-                    String hint = charsWordToGuess.get(ranCharHint);
-                    int hintPosition = charsWordToGuess.indexOf(hint);
-
-                    System.out.println("La lettera n." + (hintPosition + 1) + " e' " + "la " + "'" + hint + "'");
-
-                    // We have a list full of "_" characters
-                    // Removes "_" character from "_" char list at picked hint index
-                    // Replaces removed "-" character with right letter at that index
-                    // Check "_" list: 
-                    //      - if it finds "_" it prints "_" again
-                    //      - otherwise it prints the picked letter
-                    charsHint.remove(hintPosition);
-                    charsHint.add(hintPosition, hint);
-
-                    for (int i = 0; i < charsHint.size(); i++) {
-
-                        if (charsHint.get(i).equals("_")) {
-                            System.out.print("_ ");
-
-                        } else {
-                            System.out.print(charsHint.get(i) + " ");
-                        }
-
-                    }
-
-                    System.out.println();
-                    System.out.println("\nRiprova ora:");
+                    giveHint(charsWordToGuess, charsHint, uniqueNums);
 
                 }
             }
@@ -125,5 +116,126 @@ public class hangManGame {
 
         reader.close();
 
+    }
+
+    ////////////////////////////////////////////////////////////////
+    // How many lives?
+    ////////////////////////////////////////////////////////////////
+
+    public static int howManyLives() {
+        Scanner reader = new Scanner(System.in);
+        int number;
+
+        while (true) {
+
+            try {
+                int userLifeChoiche = reader.nextInt();
+
+                if (userLifeChoiche > 0 && userLifeChoiche <= 10) {
+                    number = userLifeChoiche;
+
+                    break;
+
+                } else if (userLifeChoiche <= 0) {
+                    System.out.println("Numeri negativi? Really?!");
+                    System.out.println("Riprova. Quante vite vuoi avere?");
+
+                    continue;
+
+                } else {
+                    System.out.println("Non esagerare! Sono buono, mica stupido! Più di 10 no, dai...");
+                    System.out.println("Riprova. Quante vite vuoi avere?");
+
+                    continue;
+                }
+
+            } catch (InputMismatchException e) {
+                System.out.println("Non fare il furbo; non hai inserito un numero!");
+                System.out.println("Riprova. Quante vite vuoi avere?");
+
+                reader.next();
+            }
+
+        }
+
+        /* reader.close(); */
+
+        return number;
+    }
+
+    ////////////////////////////////////////////////////////////////
+    // Game Over
+    ////////////////////////////////////////////////////////////////
+
+    public static void gameOver() {
+        System.out.println("--------------------------------------");
+        System.out.println("Ops, hai perso tutte le vite!");
+        System.out.println("  +---+");
+        System.out.println("  |   |");
+        System.out.println("  O   |");
+        System.out.println(" /|\\  |");
+        System.out.println(" / \\  |");
+        System.out.println("      |");
+        System.out.println("=======");
+        System.out.println("GAME OVER!");
+        System.out.println("--------------------------------------");
+    }
+
+    ////////////////////////////////////////////////////////////////
+    // Give user hint
+    ////////////////////////////////////////////////////////////////
+
+    public static void giveHint(List<String> lettersList, List<String> hintsList,
+            List<Integer> uniqueNums) {
+
+        // Keep generating a random number between none and word-to-guess size until it finds a never-picked number
+        int randCharHint;
+
+        // It does it until there are hints to give user
+        if (uniqueNums.size() != lettersList.size() - 1) {
+            System.out.println("\nDai, ti aiuto.");
+
+            while (true) {
+                Random rng = new Random();
+                randCharHint = rng.nextInt(lettersList.size());
+
+                if (!uniqueNums.contains(randCharHint)) {
+                    uniqueNums.add(randCharHint);
+
+                    break;
+                }
+            }
+
+            // Than pick letter at random generated number index...
+            // ...and register its index
+            int lastNum = uniqueNums.get(uniqueNums.size() - 1);
+
+            String hint = lettersList.get(lastNum);
+            int hintPosition = lastNum;
+
+            // Set at that index the corrisponding letter in the word-to-guess...
+            //...and print the hint
+            hintsList.set(hintPosition, hint);
+
+            for (int i = 0; i < hintsList.size(); i++) {
+
+                if (!hintsList.get(i).equals("_")) {
+                    System.out.print(hintsList.get(i) + " ");
+
+                } else {
+                    System.out.print("_ ");
+                }
+            }
+
+        } else { // If it has no hints to give anymore
+            System.out.println("Davvero?! Dai, ti sto dando la soluzione!");
+            for (String letter : lettersList) {
+                System.out.print(letter + " ");
+            }
+        }
+
+        // Print a "try again" message anyway
+        System.out.println();
+        System.out.println("\nRiprova ora:");
     }
 }
