@@ -1,6 +1,5 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,6 +10,18 @@ import java.util.Stack;
 
 public class Game {
     public Game() {
+    }
+
+    //
+    // Strip text
+    //
+    public String cleanText(String text) {
+        text = text.replaceAll("[^a-zA-Z]", " ");
+        text = text.replaceAll("\\s+"," ");
+        text = text.toLowerCase();
+        text = text.replaceAll("\\b\\w{1,4}\\b\\s?", "");
+        
+        return text;
     }
 
     //
@@ -227,43 +238,5 @@ public class Game {
         System.out.println("=======");
         System.out.println("GAME OVER!");
         System.out.println("--------------------------------------");
-    }
-
-    public void createGameLog(String wordToGuess, Player player, Boolean hasWon, List<String> triedWordsArray) {
-        String log = "./gameLog.csv";
-
-        String triedWordsString = String.join(",", triedWordsArray);
-
-        String gameData = wordToGuess + ","
-                        + player.getLives() + ","
-                        + player.getTries() + ","
-                        + hasWon + ","
-                        + triedWordsString;
-
-        FileWriter fileWriter = null;
-
-        try {
-            fileWriter = new FileWriter(log, true);
-            fileWriter.append("\n");
-            fileWriter.append(gameData);
-
-            System.out.println("Log creato");
-
-        } catch (Exception e) {
-            System.out.println("Errore nalla creazione del log");
-            e.printStackTrace();
-
-        } finally {
-
-            try {
-                fileWriter.flush();
-                fileWriter.close();
-
-            } catch (IOException e) {
-                System.out.println("Errore durante il flush del filewriter");
-                e.printStackTrace();
-            }
-
-        }
     }
 }

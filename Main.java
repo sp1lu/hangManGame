@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
@@ -10,9 +11,16 @@ public class Main {
         // Initialize game and create player
         Game game = new Game(); // Creates a list of words and fills it from txt file
         List<String> wordsToGuessList = new ArrayList<>();
-        wordsToGuessList = game.fetchWordsToGuess();
+        /* wordsToGuessList = game.fetchWordsToGuess(); */
 
-        String wordToGuess = game.chooseWordtoGuess(wordsToGuessList); // Generates a random number to choose the word to guess
+        System.out.println("Inserire un testo");
+        String userText = reader.nextLine();
+        String cleanedText = game.cleanText(userText);
+
+        wordsToGuessList = Arrays.asList(cleanedText.split(" "));
+        String wordToGuess = game.chooseWordtoGuess(wordsToGuessList);
+
+        /* String wordToGuess = game.chooseWordtoGuess(wordsToGuessList); */ // Generates a random number to choose the word to guess
         List<String> charsWordToGuess = game.splitWord(wordToGuess); // Creates an empty list and fills it with the word-to-guess letters
         List<String> charsHint = game.hideLetters(wordToGuess); // Creates an empty list and fill it with "_" characters
         Stack<Integer> uniqueNums = new Stack<>(); // Creates an empty stack; it'll be useful later!
@@ -65,7 +73,7 @@ public class Main {
 
         reader.close();
 
-        game.createGameLog(wordToGuess, player, hasWon, triedWords);
+        Util.createGameLog(wordToGuess, player, hasWon, triedWords);
 
     }
 }
