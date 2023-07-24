@@ -1,4 +1,8 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Random;
@@ -9,37 +13,22 @@ public class hangManGame {
     public static void main(String[] args) {
         Scanner reader = new Scanner(System.in);
 
-        /* System.out.println("Inserisci una frase");
-        String userPhrase = reader.nextLine();
-        
-        List<String> splittedPhrase = Arrays.asList(userPhrase.replaceAll("[^\\p{L}\\s]", "").split(" "));
-        
+        // Creates a list of words and fills it from txt file
+        String wordsTxt = "words.txt";
+        String line = "";
         List<String> wordsToGuessList = new ArrayList<>();
-        for (String word : splittedPhrase) {
-            wordsToGuessList.add(word);
+
+        try (BufferedReader br = new BufferedReader(new FileReader(wordsTxt))) {
+
+            while ((line = br.readLine()) != null) {
+                String[] words = line.split(",");                
+                wordsToGuessList = Arrays.asList(words);
+            }            
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         
-        System.out.println(wordsToGuessList); */
-
-        // Creates a list of words and fills it
-        List<String> wordsToGuessList = new ArrayList<>();
-
-        wordsToGuessList.add("episodio");
-        wordsToGuessList.add("sindaco");
-        wordsToGuessList.add("ultimo");
-        wordsToGuessList.add("colorato");
-        wordsToGuessList.add("innocente");
-        wordsToGuessList.add("borraccia");
-        wordsToGuessList.add("tastiera");
-        wordsToGuessList.add("acqua");
-        wordsToGuessList.add("playstation");
-        wordsToGuessList.add("palazzo");
-        wordsToGuessList.add("colonna");
-        wordsToGuessList.add("registro");
-        wordsToGuessList.add("burocrazia");
-        wordsToGuessList.add("videogioco");
-        wordsToGuessList.add("impiccato");
-
         // Generates a random number to choose the word to guess
         Random rng = new Random();
         int randomWordToGuessIndex = rng.nextInt(wordsToGuessList.size());
