@@ -36,7 +36,7 @@ public class Game {
     }
 
     //
-    // Generates a random number to choose the word to guess
+    // Generates a random number and choose the word to guess
     //
     public String chooseWordtoGuess(List<String> wordsToGuessList) {
         Random rng = new Random();
@@ -76,7 +76,7 @@ public class Game {
     //
     public int howManyLives() {
         Scanner reader = new Scanner(System.in);
-        int number;
+        int playerLives;
 
         while (true) {
 
@@ -84,7 +84,7 @@ public class Game {
                 int userLifeChoiche = reader.nextInt();
 
                 if (userLifeChoiche > 0 && userLifeChoiche <= 10) {
-                    number = userLifeChoiche;
+                    playerLives = userLifeChoiche;
 
                     break;
 
@@ -118,13 +118,13 @@ public class Game {
 
         }
 
-        return number;
+        return playerLives;
     }
 
     //
     //  What to do if user misses the word
     //
-    public void missesMsg(Player player) {
+    public void missMsg(Player player) {
         player.tries++;
 
         int lifeRemainNum = player.getLives() - player.getTries();
@@ -145,8 +145,7 @@ public class Game {
     //
     // Give hint
     //
-    public void giveHint(List<String> lettersList, List<String> hintsList,
-            Stack<Integer> uniqueNums) {
+    public void giveHint(List<String> lettersList, List<String> hintsList, Stack<Integer> uniqueNums) {
 
         // Keep generating a random number between none and word-to-guess size until it finds a never-picked number
         int randCharHint;

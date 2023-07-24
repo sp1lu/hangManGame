@@ -18,9 +18,9 @@ public class Main {
         Stack<Integer> uniqueNums = new Stack<>(); // Creates an empty stack; it'll be useful later!
 
         System.out.println("--------------------------------------");
-        System.out.println("Indovina la parola a cui sto pensando!");      
+        System.out.println("Indovina la parola a cui sto pensando!");
         System.out.println("Dai, ti faccio scegliere. Quante vite vuoi avere?");
-        
+
         Player player = new Player(game.howManyLives()); // Choose how many tries you wanna have and print them
         System.out.println("Hai " + player.getLives() + " vite:");
 
@@ -39,15 +39,13 @@ public class Main {
 
             userGuess = reader.nextLine().toLowerCase();
 
-            // Escape winning condition
-            if (userGuess.equals(wordToGuess)) {
+            if (userGuess.equals(wordToGuess)) { // Escape winning condition
                 game.won(wordToGuess);
 
                 break;
 
-                // What to do if user misses the word
-            } else {
-                game.missesMsg(player);
+            } else { // What to do if user misses the word
+                game.missMsg(player);
 
                 if (player.getTries() == player.getLives()) { // What to do if user losses his whole lives
                     game.gameOver();
