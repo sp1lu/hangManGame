@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -8,40 +7,21 @@ public class Main {
     public static void main(String[] args) {
         Scanner reader = new Scanner(System.in);
 
-        // Creates a list of words and fills it from txt file
-        Game game = new Game();
+        // Initialize game and create player
+        Game game = new Game(); // Creates a list of words and fills it from txt file
         List<String> wordsToGuessList = new ArrayList<>();
         wordsToGuessList = game.fetchWordsToGuess();
 
-        // Generates a random number to choose the word to guess
-        Random rng = new Random();
-        int randomWordToGuessIndex = rng.nextInt(wordsToGuessList.size());
-
-        String wordToGuess = wordsToGuessList.get(randomWordToGuessIndex);
-
-        // Creates an empty list and fills it with the word-to-guess letters
-        List<String> charsWordToGuess = new ArrayList<>();
-        for (int i = 0; i < wordToGuess.length(); i++) {
-            charsWordToGuess.add(String.valueOf(wordToGuess.charAt(i)));
-        }
-
-        // Creates an empty list and fill it with "_" characters
-        List<String> charsHint = new ArrayList<>();
-        for (int i = 0; i < wordToGuess.length(); i++) {
-            charsHint.add("_");
-        }
-
-        // Creates an empty list; it'll be useful later!
-        Stack<Integer> uniqueNums = new Stack<>();
+        String wordToGuess = game.chooseWordtoGuess(wordsToGuessList); // Generates a random number to choose the word to guess
+        List<String> charsWordToGuess = game.splitWord(wordToGuess); // Creates an empty list and fills it with the word-to-guess letters
+        List<String> charsHint = game.hideLetters(wordToGuess); // Creates an empty list and fill it with "_" characters
+        Stack<Integer> uniqueNums = new Stack<>(); // Creates an empty stack; it'll be useful later!
 
         System.out.println("--------------------------------------");
-        System.out.println("Indovina la parola a cui sto pensando!");
-        
+        System.out.println("Indovina la parola a cui sto pensando!");        
 
-        // Choose how many tries you wanna have
-        System.out.println("Dai, ti faccio scegliere. Quante vite vuoi avere?");
+        System.out.println("Dai, ti faccio scegliere. Quante vite vuoi avere?"); // Choose how many tries you wanna have and print them
         Player player = new Player(game.howManyLives());
-
         System.out.println("Hai " + player.getLives() + " vite:");
 
         for (int i = 0; i < player.getLives(); i++) {
@@ -61,10 +41,7 @@ public class Main {
 
             // Escape winning condition
             if (userGuess.equals(wordToGuess)) {
-                System.out.println("--------------------------------------");
-                System.out.println("Bravo, hai indovinato!");
-                System.out.println("La parola era proprio \"%s\".".formatted(wordToGuess));
-                System.out.println("--------------------------------------");
+                game.won(wordToGuess);
 
                 break;
 
@@ -86,7 +63,7 @@ public class Main {
 
                 System.out.println();
 
-                if (player.tries == player.getLives()) { // What to do if user losses his whole lives
+                if (player.getTries() == player.getLives()) { // What to do if user losses his whole lives
                     game.gameOver();
 
                     break;

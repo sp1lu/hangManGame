@@ -36,6 +36,42 @@ public class Game {
     }
 
     //
+    // Generates a random number to choose the word to guess
+    //
+    public String chooseWordtoGuess(List<String> wordsToGuessList) {
+        Random rng = new Random();
+        int randomWordToGuessIndex = rng.nextInt(wordsToGuessList.size());
+
+        String wordToGuess = wordsToGuessList.get(randomWordToGuessIndex);
+
+        return wordToGuess;
+    }
+
+    //
+    // Creates an empty list and fills it with the word-to-guess letters
+    //
+    public List<String> splitWord(String wordToGuess) {
+        List<String> charsWordToGuess = new ArrayList<>();
+        for (int i = 0; i < wordToGuess.length(); i++) {
+            charsWordToGuess.add(String.valueOf(wordToGuess.charAt(i)));
+        }
+
+        return charsWordToGuess;
+    }
+
+    //
+    // Creates an empty list and fill it with "_" characters
+    //
+    public List<String> hideLetters(String wordToGuess) {
+        List<String> charsHint = new ArrayList<>();
+        for (int i = 0; i < wordToGuess.length(); i++) {
+            charsHint.add("_");
+        }
+
+        return charsHint;
+    }
+
+    //
     // Ask for lives
     //
     public int howManyLives() {
@@ -139,6 +175,16 @@ public class Game {
         // Print a "try again" message anyway
         System.out.println();
         System.out.println("\nRiprova ora:");
+    }
+
+    //
+    // Game won
+    //
+    public void won(String wordToGuess) {
+        System.out.println("--------------------------------------");
+        System.out.println("Bravo, hai indovinato!");
+        System.out.println("La parola era proprio \"%s\".".formatted(wordToGuess));
+        System.out.println("--------------------------------------");
     }
 
     //
