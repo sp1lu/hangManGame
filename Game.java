@@ -203,11 +203,13 @@ public class Game {
     //
     // Game won
     //
-    public void won(String wordToGuess) {
+    public void won(String wordToGuess, Player player) {
         System.out.println("--------------------------------------");
         System.out.println("Bravo, hai indovinato!");
         System.out.println("La parola era proprio \"%s\".".formatted(wordToGuess));
         System.out.println("--------------------------------------");
+
+        player.tries++;
     }
 
     //

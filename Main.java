@@ -42,7 +42,7 @@ public class Main {
             triedWords.add(userGuess);
 
             if (userGuess.equals(wordToGuess)) { // Escape winning condition
-                game.won(wordToGuess);
+                game.won(wordToGuess, player);
 
                 hasWon = true;
 
