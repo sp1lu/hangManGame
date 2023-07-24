@@ -1,11 +1,11 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -39,9 +39,7 @@ public class Game {
     // Generates a random number and choose the word to guess
     //
     public String chooseWordtoGuess(List<String> wordsToGuessList) {
-        Random rng = new Random();
-        int randomWordToGuessIndex = rng.nextInt(wordsToGuessList.size());
-
+        int randomWordToGuessIndex = Util.generateRandom(wordsToGuessList);
         String wordToGuess = wordsToGuessList.get(randomWordToGuessIndex);
 
         return wordToGuess;
@@ -122,6 +120,15 @@ public class Game {
     }
 
     //
+    // Print current lives
+    //
+    public void printRemainingLives(int num) {
+        for (int i = 0; i < num; i++) {
+            System.out.print("<3 ");
+        }
+    }
+
+    //
     //  What to do if user misses the word
     //
     public void missMsg(Player player) {
@@ -134,10 +141,7 @@ public class Game {
         System.out.println("Hai " + (lifeRemainNum) + " vite!");
         System.out.println();
 
-        // Print remaining lives
-        for (int i = 0; i < lifeRemainNum; i++) {
-            System.out.print("<3 ");
-        }
+        printRemainingLives(lifeRemainNum);
 
         System.out.println();
     }
@@ -155,8 +159,7 @@ public class Game {
             System.out.println("\nDai, ti aiuto.");
 
             while (true) {
-                Random rng = new Random();
-                randCharHint = rng.nextInt(lettersList.size());
+                randCharHint = Util.generateRandom(lettersList);
 
                 if (!uniqueNums.contains(randCharHint)) {
                     uniqueNums.add(randCharHint);
@@ -222,5 +225,36 @@ public class Game {
         System.out.println("=======");
         System.out.println("GAME OVER!");
         System.out.println("--------------------------------------");
+    }
+
+    public void createGameLog(String wordToGuess, Player player, Boolean hasWon) {
+        String log = "./gameLog.csv";
+        String gameData = wordToGuess + "," + player.getLives() + "," + player.getTries() + "," + hasWon;
+
+        FileWriter fileWriter = null;
+
+        try {
+            fileWriter = new FileWriter(log, true);
+            fileWriter.append("\n");
+            fileWriter.append(gameData);
+
+            System.out.println("Log creato");
+
+        } catch (Exception e) {
+            System.out.println("Errore nalla creazione del log");
+            e.printStackTrace();
+
+        } finally {
+
+            try {
+                fileWriter.flush();
+                fileWriter.close();
+
+            } catch (IOException e) {
+                System.out.println("Errore durante il flush del filewriter");
+                e.printStackTrace();
+            }
+
+        }
     }
 }

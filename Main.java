@@ -24,9 +24,7 @@ public class Main {
         Player player = new Player(game.howManyLives()); // Choose how many tries you wanna have and print them
         System.out.println("Hai " + player.getLives() + " vite:");
 
-        for (int i = 0; i < player.getLives(); i++) {
-            System.out.print("<3 ");
-        }
+        game.printRemainingLives(player.getLives());
 
         // The game begins!
         System.out.println("\nSto pensando ad una parola di " + charsWordToGuess.size() + " lettere");
@@ -35,12 +33,16 @@ public class Main {
         String userGuess;
 
         // Start asking guesses to user
+        Boolean hasWon = false;
+
         while (player.getTries() != player.getLives()) {
 
             userGuess = reader.nextLine().toLowerCase();
 
             if (userGuess.equals(wordToGuess)) { // Escape winning condition
                 game.won(wordToGuess);
+
+                hasWon = true;
 
                 break;
 
@@ -60,6 +62,8 @@ public class Main {
         }
 
         reader.close();
+
+        game.createGameLog(wordToGuess, player, hasWon);
 
     }
 }
