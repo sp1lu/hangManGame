@@ -227,9 +227,16 @@ public class Game {
         System.out.println("--------------------------------------");
     }
 
-    public void createGameLog(String wordToGuess, Player player, Boolean hasWon) {
+    public void createGameLog(String wordToGuess, Player player, Boolean hasWon, List<String> triedWordsArray) {
         String log = "./gameLog.csv";
-        String gameData = wordToGuess + "," + player.getLives() + "," + player.getTries() + "," + hasWon;
+
+        String triedWordsString = String.join(",", triedWordsArray);
+
+        String gameData = wordToGuess + ","
+                        + player.getLives() + ","
+                        + player.getTries() + ","
+                        + hasWon + ","
+                        + triedWordsString;
 
         FileWriter fileWriter = null;
 

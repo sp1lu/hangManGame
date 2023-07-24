@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
@@ -34,10 +35,12 @@ public class Main {
 
         // Start asking guesses to user
         Boolean hasWon = false;
+        List<String> triedWords = new ArrayList<String>();
 
         while (player.getTries() != player.getLives()) {
 
             userGuess = reader.nextLine().toLowerCase();
+            triedWords.add(userGuess);
 
             if (userGuess.equals(wordToGuess)) { // Escape winning condition
                 game.won(wordToGuess);
@@ -63,7 +66,7 @@ public class Main {
 
         reader.close();
 
-        game.createGameLog(wordToGuess, player, hasWon);
+        game.createGameLog(wordToGuess, player, hasWon, triedWords);
 
     }
 }
