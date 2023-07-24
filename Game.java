@@ -13,15 +13,42 @@ public class Game {
     }
 
     //
-    // Strip text
+    // Clean text and choose a word from it
     //
-    public String cleanText(String text) {
-        text = text.replaceAll("[^a-zA-Z]", " ");
-        text = text.replaceAll("\\s+"," ");
-        text = text.toLowerCase();
-        text = text.replaceAll("\\b\\w{1,4}\\b\\s?", "");
-        
-        return text;
+    public String chooseWordFromText(Game game, List<String> wordsToGuessList) {
+        Scanner reader = new Scanner(System.in);
+
+        String userText;
+        String wordToGuess;
+
+        while (true) {
+
+            try {
+                userText = reader.nextLine();
+                String cleanedText = Util.cleanText(userText);
+
+                wordsToGuessList = Arrays.asList(cleanedText.split(" "));
+                wordToGuess = game.chooseWordtoGuess(wordsToGuessList);
+
+                if (wordToGuess.length() >= 5) {
+                    break;
+                }
+
+                System.out.println("Il testo che hai inserito non contiene parole che abbiano almeno cinquee lettere.");
+                System.out.println("Riprova con un altro testo.");
+
+            } catch (InputMismatchException e) {
+                System.out.println("Non fare il furbo; non hai inserito un numero!");
+                System.out.println("Riprova con un altro testo.");
+
+                reader.next();
+            }
+
+            reader.close();
+
+        }
+
+        return wordToGuess;
     }
 
     //

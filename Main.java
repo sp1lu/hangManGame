@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
@@ -13,12 +12,11 @@ public class Main {
         List<String> wordsToGuessList = new ArrayList<>();
         /* wordsToGuessList = game.fetchWordsToGuess(); */
 
-        System.out.println("Inserire un testo");
-        String userText = reader.nextLine();
-        String cleanedText = game.cleanText(userText);
+        System.out.println("--------------------------------------");
+        System.out.println("Facciamo un gioco: devi indovinare a quale parola sto pensando!");
+        System.out.println("Inserisci un testo: deve contenere almeno una parola di cinque lettere.");
 
-        wordsToGuessList = Arrays.asList(cleanedText.split(" "));
-        String wordToGuess = game.chooseWordtoGuess(wordsToGuessList);
+        String wordToGuess = game.chooseWordFromText(game, wordsToGuessList);
 
         /* String wordToGuess = game.chooseWordtoGuess(wordsToGuessList); */ // Generates a random number to choose the word to guess
         List<String> charsWordToGuess = game.splitWord(wordToGuess); // Creates an empty list and fills it with the word-to-guess letters

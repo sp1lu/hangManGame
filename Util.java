@@ -18,12 +18,25 @@ public class Util {
     }
 
     //
+    // Clean text
+    //
+    public static String cleanText(String text) {
+        text = text.replaceAll("[^a-zA-Z]", " ");
+        text = text.replaceAll("\\s+"," ");
+        text = text.toLowerCase();
+        text = text.replaceAll("\\b\\w{1,4}\\b\\s?", "");
+        
+        return text;
+    }
+
+    //
     // Print game logs
     //
     public static void createGameLog(String wordToGuess, Player player, Boolean hasWon, List<String> triedWordsArray) {
         String log = "./gameLog.csv";
 
         String triedWordsString = String.join(",", triedWordsArray);
+
         String gameData = wordToGuess + ","
                         + player.getLives() + ","
                         + player.getTries() + ","
