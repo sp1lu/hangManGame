@@ -10,15 +10,15 @@ public class Main {
         // Initialize game and create player
         Game game = new Game(); // Creates a list of words and fills it from txt file
         List<String> wordsToGuessList = new ArrayList<>();
-        /* wordsToGuessList = game.fetchWordsToGuess(); */
+        wordsToGuessList = game.fetchWordsToGuess();
 
-        System.out.println("--------------------------------------");
+        /* System.out.println("--------------------------------------");
         System.out.println("Facciamo un gioco: devi indovinare a quale parola sto pensando!");
-        System.out.println("Inserisci un testo: deve contenere almeno una parola di cinque lettere.");
+        System.out.println("Inserisci un testo: deve contenere almeno una parola di cinque lettere."); */
 
-        String wordToGuess = game.chooseWordFromText(game, wordsToGuessList);
+        /* String wordToGuess = game.chooseWordFromText(game, wordsToGuessList); */
 
-        /* String wordToGuess = game.chooseWordtoGuess(wordsToGuessList); */ // Generates a random number to choose the word to guess
+        String wordToGuess = game.chooseWordtoGuess(wordsToGuessList); // Generates a random number to choose the word to guess
         List<String> charsWordToGuess = game.splitWord(wordToGuess); // Creates an empty list and fills it with the word-to-guess letters
         List<String> charsHint = game.hideLetters(wordToGuess); // Creates an empty list and fill it with "_" characters
         Stack<Integer> uniqueNums = new Stack<>(); // Creates an empty stack; it'll be useful later!

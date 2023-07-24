@@ -25,8 +25,11 @@ public class Util {
         text = text.replaceAll("\\s+"," ");
         text = text.toLowerCase();
         text = text.replaceAll("\\b\\w{1,4}\\b\\s?", "");
+        text = text.replaceAll("[^\n]*$", "");
         
         return text;
+
+        /* [^\n]*$ */
     }
 
     //

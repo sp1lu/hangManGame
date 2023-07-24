@@ -16,25 +16,29 @@ public class Game {
     // Clean text and choose a word from it
     //
     public String chooseWordFromText(Game game, List<String> wordsToGuessList) {
-        Scanner reader = new Scanner(System.in);
 
         String userText;
         String wordToGuess;
 
         while (true) {
+            Scanner reader = new Scanner(System.in);
 
             try {
+
                 userText = reader.nextLine();
+
                 String cleanedText = Util.cleanText(userText);
 
                 wordsToGuessList = Arrays.asList(cleanedText.split(" "));
                 wordToGuess = game.chooseWordtoGuess(wordsToGuessList);
 
+                
+
                 if (wordToGuess.length() >= 5) {
                     break;
                 }
 
-                System.out.println("Il testo che hai inserito non contiene parole che abbiano almeno cinquee lettere.");
+                System.out.println("Il testo che hai inserito non contiene parole che abbiano almeno cinque lettere.");
                 System.out.println("Riprova con un altro testo.");
 
             } catch (InputMismatchException e) {
