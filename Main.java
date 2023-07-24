@@ -18,10 +18,10 @@ public class Main {
         Stack<Integer> uniqueNums = new Stack<>(); // Creates an empty stack; it'll be useful later!
 
         System.out.println("--------------------------------------");
-        System.out.println("Indovina la parola a cui sto pensando!");        
-
-        System.out.println("Dai, ti faccio scegliere. Quante vite vuoi avere?"); // Choose how many tries you wanna have and print them
-        Player player = new Player(game.howManyLives());
+        System.out.println("Indovina la parola a cui sto pensando!");      
+        System.out.println("Dai, ti faccio scegliere. Quante vite vuoi avere?");
+        
+        Player player = new Player(game.howManyLives()); // Choose how many tries you wanna have and print them
         System.out.println("Hai " + player.getLives() + " vite:");
 
         for (int i = 0; i < player.getLives(); i++) {
@@ -47,21 +47,7 @@ public class Main {
 
                 // What to do if user misses the word
             } else {
-                player.tries++;
-
-                int lifeRemainNum = player.getLives() - player.getTries();
-
-                System.out.println("--------------------------------------");
-                System.out.println("Non hai indovinato.");
-                System.out.println("Hai " + (lifeRemainNum) + " vite!");
-                System.out.println();
-
-                // Print remaining lives
-                for (int i = 0; i < lifeRemainNum; i++) {
-                    System.out.print("<3 ");
-                }
-
-                System.out.println();
+                game.missesMsg(player);
 
                 if (player.getTries() == player.getLives()) { // What to do if user losses his whole lives
                     game.gameOver();

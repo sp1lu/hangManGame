@@ -122,6 +122,27 @@ public class Game {
     }
 
     //
+    //  What to do if user misses the word
+    //
+    public void missesMsg(Player player) {
+        player.tries++;
+
+        int lifeRemainNum = player.getLives() - player.getTries();
+
+        System.out.println("--------------------------------------");
+        System.out.println("Non hai indovinato.");
+        System.out.println("Hai " + (lifeRemainNum) + " vite!");
+        System.out.println();
+
+        // Print remaining lives
+        for (int i = 0; i < lifeRemainNum; i++) {
+            System.out.print("<3 ");
+        }
+
+        System.out.println();
+    }
+
+    //
     // Give hint
     //
     public void giveHint(List<String> lettersList, List<String> hintsList,
